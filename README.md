@@ -14,6 +14,9 @@
   <a href="https://github.com/jhofer-cloud/jhofer-cloud/actions/workflows/release.yaml">
       <img src="https://github.com/jhofer-cloud/helm-charts/actions/workflows/release.yaml/badge.svg">
   </a>
+  <a href="https://artifacthub.io/packages/search?repo=jhofer-cloud-charts">
+      <img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/jhofer-cloud-charts">
+  </a>
 </p>
 
 <p align="center">
