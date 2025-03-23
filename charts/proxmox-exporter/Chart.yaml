@@ -1,0 +1,16 @@
+apiVersion: v2
+name: prometheus-pve-exporter
+description: A Helm chart for Prometheus Proxmox VE Exporter
+type: application
+version: 0.1.0
+appVersion: "3.5.2"
+dependencies:
+  - name: base
+    repository: "file://../base"
+    tags:
+      - base
+    version: 1.x.x
+maintainers:
+  - name: ojsef39
+    email: me@jhofer.de
+    url: https://github.com/ojsef39

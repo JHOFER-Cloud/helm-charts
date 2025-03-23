@@ -1,0 +1,77 @@
+image: "prompve/prometheus-pve-exporter:{{ .Chart.AppVersion }}"
+replicaCount: 1
+
+ingress:
+  enabled: false
+  hostname: proxmox-exporter.local
+  path: /
+  pathType: Prefix
+  backend:
+    servicePort: http
+
+containerPorts:
+  http: 9221
+
+annotations: {}
+
+service:
+  type: ClusterIP
+  nodePorts: {}
+  #   http: 9221
+  ports:
+    http: 9221
+
+livenessProbe:
+  enabled: true
+  path: /
+  port: 9221
+  initialDelaySeconds: 180
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  path: /
+  port: 9221
+  initialDelaySeconds: 180
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+# External secret reference
+secretRef:
+  # Name of the externally managed secret containing PVE credentials
+  name: "proxmox-credentials"
+  # Key in the secret that contains the pve.yml content
+  key: "pve.yml"
+
+# ServiceMonitor configuration
+serviceMonitor:
+  enabled: false
+  extraLabels: {}
+  #   release: prometheus
+  interval: 30s
+  scrapeTimeout: 30s
+  module: default
+
+  # Define your Proxmox targets here
+  targets: []
+  # Example targets:
+  # - name: pve1
+  #   url: 192.168.1.2
+  #   additionalMetricsRelabels:
+  #     datacenter: dc1
+  # - name: pve2
+  #   url: 192.168.1.3
+  #   additionalMetricsRelabels:
+  #     datacenter: dc2
+
+# Command-line arguments for the exporter
+extraArgs: []
+# - "--no-collector.config"
+
+# Environment variables
+env: []
