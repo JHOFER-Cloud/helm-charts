@@ -10,6 +10,6 @@
 # NOT apply to ownership claim operations, which are processed immediately.
 ##
 #repositoryID: ""
-#owners:
-#  - name: ""
-#    email: ""
+owners:
+  - name: "ojsef39"
+    email: "me@jhofer.de"
