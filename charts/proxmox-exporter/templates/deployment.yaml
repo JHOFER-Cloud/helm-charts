@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: proxmox-exporter
-          image: {{ .Values.image }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           args:
             - "--config.file=/etc/prometheus/pve.yml"
             {{- if .Values.extraArgs }}

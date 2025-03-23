@@ -1,3 +1,13 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "regexManagers": [
+    {
+      "description": "Update appVersion in proxmox-exporter Chart.yaml",
+      "fileMatch": ["^charts/proxmox-exporter/Chart\\.yaml$"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>.*?)\"\\s*"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "prometheus-pve/prometheus-pve-exporter",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    }
+  ]
 }

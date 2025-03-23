@@ -1,4 +1,5 @@
 # Helm chart automated files
 /charts/*/charts
 .idea
-charts/base/.DS_Store
+.DS_Store
+Chart.lock
