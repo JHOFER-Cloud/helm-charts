@@ -1,0 +1,40 @@
+apiVersion: v1
+entries:
+  base:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-03-23T19:41:07.722822696Z"
+    description: A Library Helm Chart for grouping base logic charts.
+    digest: f19f24c88d0ce86a2bba2df8a9f6e20c96d74e95d79a022cacae352ad8a7c465
+    home: https://github.com/jhofer-cloud/tree/main/charts/base
+    maintainers:
+    - email: me@jhofer.de
+      name: ojsef39
+      url: https://github.com/ojsef39
+    name: base
+    type: library
+    urls:
+    - https://github.com/JHOFER-Cloud/helm-charts/releases/download/base-1.0.0/base-1.0.0.tgz
+    version: 1.0.0
+  prometheus-pve-exporter:
+  - apiVersion: v2
+    appVersion: 3.5.2
+    created: "2025-03-23T19:41:07.897508441Z"
+    dependencies:
+    - name: base
+      repository: file://../base
+      tags:
+      - base
+      version: 1.x.x
+    description: A Helm chart for Prometheus Proxmox VE Exporter
+    digest: 6c78c20857c6015e4fd418a43efdeb8a95c03e9ce7dc41b50fda006fbc42c6c7
+    maintainers:
+    - email: me@jhofer.de
+      name: ojsef39
+      url: https://github.com/ojsef39
+    name: prometheus-pve-exporter
+    type: application
+    urls:
+    - https://github.com/JHOFER-Cloud/helm-charts/releases/download/prometheus-pve-exporter-0.1.0/prometheus-pve-exporter-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-03-23T19:41:07.897514202Z"
