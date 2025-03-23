@@ -1,6 +1,6 @@
 image:
   repository: "prompve/prometheus-pve-exporter"
-  tag: "" # Empty by default, will use Chart.AppVersion
+  tag: ""  # Empty by default, will use Chart.AppVersion
 replicaCount: 1
 
 ingress:
