@@ -1,6 +1,0 @@
-dependencies:
-- name: base
-  repository: https://charts.jhofer.org
-  version: 1.0.0
-digest: sha256:0e82b58e536c5fe1f01c88d9f184af5ebac4538b1804ae5c83abc1b0aa7df924
-generated: "2025-03-23T20:57:59.722488+01:00"
