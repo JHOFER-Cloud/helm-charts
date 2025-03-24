@@ -4,7 +4,7 @@ This Helm chart deploys the Prometheus Proxmox VE Exporter, which exposes inform
 
 ## Prerequisites
 
-- An secret with Proxmox credentials
+- A secret with Proxmox credentials
 
 ## Installation
 
