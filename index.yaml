@@ -3,6 +3,21 @@ entries:
   base:
   - apiVersion: v2
     appVersion: 1.0.1
+    created: "2025-03-24T17:09:40.60830792Z"
+    description: A Library Helm Chart for grouping base logic charts.
+    digest: ebc90ebc61b4d4e8d4faa720e4aa15fb676255558627cbc288ccf6533069f607
+    home: https://github.com/jhofer-cloud/tree/main/charts/base
+    maintainers:
+    - email: me@jhofer.de
+      name: ojsef39
+      url: https://github.com/ojsef39
+    name: base
+    type: library
+    urls:
+    - https://github.com/JHOFER-Cloud/helm-charts/releases/download/base-1.1.0/base-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 1.0.1
     created: "2025-03-23T20:26:43.958952922Z"
     description: A Library Helm Chart for grouping base logic charts.
     digest: f2e469a64f1f2d57e1c4be0e804abe89127d7763f48c8861c5165debf90cd73d
@@ -31,28 +46,27 @@ entries:
     urls:
     - https://github.com/JHOFER-Cloud/helm-charts/releases/download/base-1.0.0/base-1.0.0.tgz
     version: 1.0.0
-  prometheus-pve-exporter:
+  proxmox-exporter:
   - apiVersion: v2
     appVersion: 3.5.2
-    created: "2025-03-23T19:41:07.897508441Z"
+    created: "2025-03-24T17:09:40.740183706Z"
     dependencies:
     - name: base
-      repository: file://../base
+      repository: https://charts.jhofer.org
       tags:
       - base
       version: 1.x.x
     description: A Helm chart for Prometheus Proxmox VE Exporter
-    digest: 6c78c20857c6015e4fd418a43efdeb8a95c03e9ce7dc41b50fda006fbc42c6c7
+    digest: f3662c4723d9648efab9abf312fb29133532e5ef2b48636b83433cf673ade1ca
     maintainers:
     - email: me@jhofer.de
       name: ojsef39
       url: https://github.com/ojsef39
-    name: prometheus-pve-exporter
+    name: proxmox-exporter
     type: application
     urls:
-    - https://github.com/JHOFER-Cloud/helm-charts/releases/download/prometheus-pve-exporter-0.1.0/prometheus-pve-exporter-0.1.0.tgz
-    version: 0.1.0
-  proxmox-exporter:
+    - https://github.com/JHOFER-Cloud/helm-charts/releases/download/proxmox-exporter-1.1.0/proxmox-exporter-1.1.0.tgz
+    version: 1.1.0
   - apiVersion: v2
     appVersion: 3.5.2
     created: "2025-03-23T22:04:35.040572282Z"
@@ -93,4 +107,4 @@ entries:
     urls:
     - https://github.com/JHOFER-Cloud/helm-charts/releases/download/proxmox-exporter-1.0.0/proxmox-exporter-1.0.0.tgz
     version: 1.0.0
-generated: "2025-03-23T22:04:35.040584405Z"
+generated: "2025-03-24T17:09:40.740206919Z"
