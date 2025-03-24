@@ -148,3 +148,11 @@ serviceMonitor:
 extraArgs:
   - "--no-collector.config"
 ```
+
+## Schema
+
+For now it only has a simple schema generated with:
+
+```bash
+helm schema . --no-dependencies -k additionalProperties -k required
+```
