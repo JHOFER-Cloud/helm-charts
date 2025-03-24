@@ -49,6 +49,26 @@ entries:
   proxmox-exporter:
   - apiVersion: v2
     appVersion: 3.5.2
+    created: "2025-03-24T20:34:17.268417898Z"
+    dependencies:
+    - name: base
+      repository: https://charts.jhofer.org
+      tags:
+      - base
+      version: 1.x.x
+    description: A Helm chart for Prometheus Proxmox VE Exporter
+    digest: 1034acfef6be8eb50dc30b854b35e5cd43fc854ed713b17c27fc5ef34588355d
+    maintainers:
+    - email: me@jhofer.de
+      name: ojsef39
+      url: https://github.com/ojsef39
+    name: proxmox-exporter
+    type: application
+    urls:
+    - https://github.com/JHOFER-Cloud/helm-charts/releases/download/proxmox-exporter-1.1.1/proxmox-exporter-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 3.5.2
     created: "2025-03-24T17:09:40.740183706Z"
     dependencies:
     - name: base
@@ -107,4 +127,4 @@ entries:
     urls:
     - https://github.com/JHOFER-Cloud/helm-charts/releases/download/proxmox-exporter-1.0.0/proxmox-exporter-1.0.0.tgz
     version: 1.0.0
-generated: "2025-03-24T17:09:40.740206919Z"
+generated: "2025-03-24T20:34:17.26844037Z"
