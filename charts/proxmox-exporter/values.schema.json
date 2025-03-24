@@ -1,0 +1,329 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "annotations": {
+      "required": [],
+      "title": "annotations",
+      "type": "object"
+    },
+    "containerPorts": {
+      "properties": {
+        "http": {
+          "default": 9221,
+          "required": [],
+          "title": "http",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "containerPorts",
+      "type": "object"
+    },
+    "env": {
+      "description": "Environment variables",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "env",
+      "type": "array"
+    },
+    "extraArgs": {
+      "description": "Command-line arguments for the exporter",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "extraArgs",
+      "type": "array"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "properties": {
+        "repository": {
+          "default": "prompve/prometheus-pve-exporter",
+          "required": [],
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "",
+          "required": [],
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "image",
+      "type": "object"
+    },
+    "ingress": {
+      "properties": {
+        "backend": {
+          "properties": {
+            "servicePort": {
+              "default": "http",
+              "required": [],
+              "title": "servicePort",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "backend",
+          "type": "object"
+        },
+        "enabled": {
+          "default": false,
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "hostname": {
+          "default": "proxmox-exporter.local",
+          "required": [],
+          "title": "hostname",
+          "type": "string"
+        },
+        "path": {
+          "default": "/",
+          "required": [],
+          "title": "path",
+          "type": "string"
+        },
+        "pathType": {
+          "default": "Prefix",
+          "required": [],
+          "title": "pathType",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "ingress",
+      "type": "object"
+    },
+    "livenessProbe": {
+      "properties": {
+        "enabled": {
+          "default": true,
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "failureThreshold": {
+          "default": 6,
+          "required": [],
+          "title": "failureThreshold",
+          "type": "integer"
+        },
+        "initialDelaySeconds": {
+          "default": 180,
+          "required": [],
+          "title": "initialDelaySeconds",
+          "type": "integer"
+        },
+        "path": {
+          "default": "/",
+          "required": [],
+          "title": "path",
+          "type": "string"
+        },
+        "periodSeconds": {
+          "default": 20,
+          "required": [],
+          "title": "periodSeconds",
+          "type": "integer"
+        },
+        "port": {
+          "default": 9221,
+          "required": [],
+          "title": "port",
+          "type": "integer"
+        },
+        "successThreshold": {
+          "default": 1,
+          "required": [],
+          "title": "successThreshold",
+          "type": "integer"
+        },
+        "timeoutSeconds": {
+          "default": 5,
+          "required": [],
+          "title": "timeoutSeconds",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "livenessProbe",
+      "type": "object"
+    },
+    "readinessProbe": {
+      "properties": {
+        "enabled": {
+          "default": true,
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "failureThreshold": {
+          "default": 6,
+          "required": [],
+          "title": "failureThreshold",
+          "type": "integer"
+        },
+        "initialDelaySeconds": {
+          "default": 180,
+          "required": [],
+          "title": "initialDelaySeconds",
+          "type": "integer"
+        },
+        "path": {
+          "default": "/",
+          "required": [],
+          "title": "path",
+          "type": "string"
+        },
+        "periodSeconds": {
+          "default": 20,
+          "required": [],
+          "title": "periodSeconds",
+          "type": "integer"
+        },
+        "port": {
+          "default": 9221,
+          "required": [],
+          "title": "port",
+          "type": "integer"
+        },
+        "successThreshold": {
+          "default": 1,
+          "required": [],
+          "title": "successThreshold",
+          "type": "integer"
+        },
+        "timeoutSeconds": {
+          "default": 5,
+          "required": [],
+          "title": "timeoutSeconds",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "readinessProbe",
+      "type": "object"
+    },
+    "replicaCount": {
+      "default": 1,
+      "required": [],
+      "title": "replicaCount",
+      "type": "integer"
+    },
+    "secretRef": {
+      "description": "External secret reference",
+      "properties": {
+        "key": {
+          "default": "pve.yml",
+          "description": "Key in the secret that contains the pve.yml content",
+          "required": [],
+          "title": "key",
+          "type": "string"
+        },
+        "name": {
+          "default": "proxmox-credentials",
+          "description": "Name of the externally managed secret containing PVE credentials",
+          "required": [],
+          "title": "name",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "secretRef",
+      "type": "object"
+    },
+    "service": {
+      "properties": {
+        "nodePorts": {
+          "required": [],
+          "title": "nodePorts",
+          "type": "object"
+        },
+        "ports": {
+          "description": "  http: 9221",
+          "properties": {
+            "http": {
+              "default": 9221,
+              "required": [],
+              "title": "http",
+              "type": "integer"
+            }
+          },
+          "required": [],
+          "title": "ports",
+          "type": "object"
+        },
+        "type": {
+          "default": "ClusterIP",
+          "required": [],
+          "title": "type",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "service",
+      "type": "object"
+    },
+    "serviceMonitor": {
+      "description": "ServiceMonitor configuration",
+      "properties": {
+        "enabled": {
+          "default": false,
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "extraLabels": {
+          "required": [],
+          "title": "extraLabels",
+          "type": "object"
+        },
+        "interval": {
+          "default": "30s",
+          "description": "  release: prometheus",
+          "required": [],
+          "title": "interval",
+          "type": "string"
+        },
+        "module": {
+          "default": "default",
+          "required": [],
+          "title": "module",
+          "type": "string"
+        },
+        "scrapeTimeout": {
+          "default": "30s",
+          "required": [],
+          "title": "scrapeTimeout",
+          "type": "string"
+        },
+        "targets": {
+          "description": "Define your Proxmox targets here",
+          "items": {
+            "required": []
+          },
+          "required": [],
+          "title": "targets",
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "serviceMonitor",
+      "type": "object"
+    }
+  },
+  "required": [],
+  "type": "object"
+}
