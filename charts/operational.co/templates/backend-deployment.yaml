@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "base.labels.standard" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "base.labels.matchLabels" . | nindent 6 }}
+      app.kubernetes.io/component: backend
+  template:
+    metadata:
+      labels:
+        {{- include "base.labels.standard" . | nindent 8 }}
+        app.kubernetes.io/component: backend
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 2000
+              protocol: TCP
+          env:
+            {{- if .Values.global.env }}
+            {{- range $key, $value := .Values.global.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- end }}
+
+            # Database URL configuration
+            {{- if .Values.existingSecrets.databaseUrl.name }}
+            # Option 1: Use a pre-existing secret with complete database URL
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingSecrets.databaseUrl.name }}
+                  key: {{ .Values.existingSecrets.databaseUrl.key | default "database-url" }}
+            {{- else if .Values.mysql.enabled }}
+            # Option 2: Use the bundled MySQL (default)
+            - name: DATABASE_URL
+              {{- if .Values.mysql.auth.existingSecret }}
+              value: "mysql://root:$(MYSQL_ROOT_PASSWORD)@{{ .Release.Name }}-mysql:3306/{{ .Values.mysql.auth.database }}"
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.auth.existingSecret }}
+                  key: {{ .Values.mysql.auth.rootPasswordKey | default "mysql-root-password" }}
+              {{- else if .Values.mysql.auth.rootPassword }}
+              value: "mysql://root:{{ .Values.mysql.auth.rootPassword }}@{{ .Release.Name }}-mysql:3306/{{ .Values.mysql.auth.database }}"
+              {{- else }}
+              value: "mysql://root:$(MYSQL_ROOT_PASSWORD)@{{ .Release.Name }}-mysql:3306/{{ .Values.mysql.auth.database }}"
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-mysql
+                  key: mysql-root-password
+              {{- end }}
+            {{- else }}
+            # Option 3: Use an external MySQL instance
+            - name: DATABASE_URL
+              {{- if .Values.externalMysql.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.externalMysql.existingSecret }}
+                  key: {{ .Values.externalMysql.existingSecretPasswordKey | default "database-url" }}
+              {{- else }}
+              value: "mysql://{{ .Values.externalMysql.username }}:{{ .Values.externalMysql.password }}@{{ .Values.externalMysql.host }}:{{ .Values.externalMysql.port }}/{{ .Values.externalMysql.database }}"
+              {{- end }}
+            {{- end }}
+
+            # Application environment variables
+            {{- range $key, $value := .Values.backend.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+
+            # Application secrets
+            {{- if .Values.existingSecrets.backend.name }}
+            {{- range $key, $value := .Values.existingSecrets.backend.keys }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.existingSecrets.backend.name }}
+                  key: {{ $value }}
+            {{- end }}
+            {{- else }}
+            {{- range $key, $value := .Values.backend.secrets }}
+            {{- if $value }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-backend-secrets
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          {{- if .Values.backend.healthcheck }}
+          livenessProbe:
+            {{- toYaml .Values.backend.healthcheck.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.backend.healthcheck.readinessProbe | nindent 12 }}
+          {{- end }}

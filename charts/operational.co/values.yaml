@@ -1,0 +1,142 @@
+## Global configuration values
+global:
+  ## Common environment variables for both services
+  env:
+    NODE_ENV: production
+
+## Frontend application configuration
+frontend:
+  replicaCount: 1
+
+  image:
+    repository: "ghcr.io/ojsef39/operational.co-app"
+    tag: "" # Empty by default, will use Chart.AppVersion
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  ## Environment variables for the frontend
+  env:
+    ## API URL for the frontend to connect to
+    VITE_API_URL: "http://backend:2000"
+
+  ## Secret values for the frontend
+  secrets:
+    ## Push notification server key
+    VITE_PUSH_SERVER_KEY: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: myapp.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+
+## Backend application configuration
+backend:
+  replicaCount: 1
+
+  image:
+    repository: "ghcr.io/ojsef39/operational.co-backend"
+    tag: "" # Empty by default, will use Chart.AppVersion
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 2000
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  ## Environment variables for the backend
+  env:
+    ## URL for the frontend application
+    APP_URL: "http://frontend"
+    ## URL for the backend API
+    API_URL: "http://backend:2000"
+    ## CORS configuration
+    CORS: "*"
+
+  ## Secret values for the backend
+  secrets:
+    ## Push notification credentials
+    VAPID_EMAIL: ""
+    VAPID_PUBLIC_KEY: ""
+    VAPID_PRIVATE_KEY: ""
+    ADMIN_EMAIL: ""
+
+    ## Secret key for JWT tokens or encryption
+    SECRET: ""
+
+## MySQL configuration
+## Set enabled: false if you want to use an external MySQL
+mysql:
+  enabled: true
+
+  ## MySQL configuration from the bitnami/mysql chart
+  auth:
+    rootPassword: ""
+    database: "operational"
+
+    # Or use an existing secret
+    existingSecret: ""
+    rootPasswordKey: "mysql-root-password"
+    passwordKey: "mysql-password"
+
+  primary:
+    persistence:
+      enabled: true
+      size: 2Gi
+
+## If you use an external MySQL, you can configure it here
+externalMysql:
+  host: ""
+  port: 3306
+  username: ""
+  password: "" # Not recommended for GitOps
+  database: "operational"
+  existingSecret: ""
+  existingSecretPasswordKey: "database-url"
+
+## Existing secrets to use instead of creating new ones
+existingSecrets:
+  ## Frontend secrets
+  frontend:
+    name: ""
+    keys:
+      VITE_PUSH_SERVER_KEY: "vite_push_server_key"
+
+  ## Backend secrets
+  backend:
+    name: ""
+    keys:
+      VAPID_EMAIL: "vapid_email"
+      VAPID_PUBLIC_KEY: "vapid_public_key"
+      VAPID_PRIVATE_KEY: "vapid_private_key"
+      ADMIN_EMAIL: "admin_email"
+      SECRET: "secret"
+
+  ## Option for a complete pre-configured database URL secret
+  ## (alternative to mysql or externalMysql configuration)
+  databaseUrl:
+    name: "" # If set, this takes precedence over mysql and externalMysql settings
+    key: "database-url"

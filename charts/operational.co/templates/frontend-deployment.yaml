@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-frontend
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "base.labels.standard" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "base.labels.matchLabels" . | nindent 6 }}
+      app.kubernetes.io/component: frontend
+  template:
+    metadata:
+      labels:
+        {{- include "base.labels.standard" . | nindent 8 }}
+        app.kubernetes.io/component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            {{- if .Values.global.env }}
+            {{- range $key, $value := .Values.global.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- end }}
+            {{- range $key, $value := .Values.frontend.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- if .Values.existingSecrets.frontend.name }}
+            {{- range $key, $value := .Values.existingSecrets.frontend.keys }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.existingSecrets.frontend.name }}
+                  key: {{ $value }}
+            {{- end }}
+            {{- else }}
+            {{- range $key, $value := .Values.frontend.secrets }}
+            {{- if $value }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-frontend-secrets
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+          {{- if .Values.frontend.healthcheck }}
+          livenessProbe:
+            {{- toYaml .Values.frontend.healthcheck.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.frontend.healthcheck.readinessProbe | nindent 12 }}
+          {{- end }}

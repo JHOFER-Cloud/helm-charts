@@ -1,0 +1,20 @@
+apiVersion: v2
+name: operational.co
+description: A Helm chart for Operational.co
+type: application
+version: 1.0.0
+appVersion: "1.1.0"
+dependencies:
+  - name: base
+    repository: https://charts.jhofer.org
+    tags:
+      - base
+    version: 1.x.x
+  - name: mysql
+    version: "12.3.2"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: mysql.enabled
+maintainers:
+  - name: ojsef39
+    email: me@jhofer.de
+    url: https://github.com/ojsef39
