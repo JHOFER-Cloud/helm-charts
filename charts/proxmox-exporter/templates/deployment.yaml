@@ -64,8 +64,16 @@ spec:
           {{- end }}
       volumes:
         - name: pve-config
+          {{- if .Values.secretRef }}
           secret:
             secretName: {{ .Values.secretRef.name }}
             items:
               - key: {{ .Values.secretRef.key }}
                 path: pve.yml
+          {{- else }}
+          configMap:
+            name: {{ .Release.Name }}-conf
+            items:
+              - key: pve.yml
+                path: pve.yml
+          {{- end }}
