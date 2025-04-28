@@ -10,5 +10,6 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 data:
-  pve.yml: {{- toYaml .Values.config  | nindent 4 }}
+  pve.yml: |
+    {{- toYaml .Values.config | nindent 4 }}
 {{- end -}}

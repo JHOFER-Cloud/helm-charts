@@ -1,6 +1,7 @@
 image:
   repository: "prompve/prometheus-pve-exporter"
-  tag: ""  # Empty by default, will use Chart.AppVersion
+  # Empty by default, will use Chart.AppVersion
+  tag: ""
 replicaCount: 1
 
 ingress:
@@ -45,10 +46,18 @@ readinessProbe:
 
 # External secret reference
 secretRef:
+  {}
   # Name of the externally managed secret containing PVE credentials
-  name: "proxmox-credentials"
+  # name: "proxmox-credentials"
   # Key in the secret that contains the pve.yml content
-  key: "pve.yml"
+  # key: "pve.yml"
+
+config:
+  # Example:
+  default:
+    user: prometheus@pve
+    password: sEcr3T!
+    verify_ssl: true
 
 # ServiceMonitor configuration
 serviceMonitor:
