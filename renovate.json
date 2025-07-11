@@ -1,13 +1,32 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "description": "Update appVersion in proxmox-exporter Chart.yaml",
-      "fileMatch": ["^charts/proxmox-exporter/Chart\\.yaml$"],
-      "matchStrings": ["appVersion:\\s*\"(?<currentValue>.*?)\"\\s*"],
-      "datasourceTemplate": "github-releases",
       "depNameTemplate": "prometheus-pve/prometheus-pve-exporter",
+      "managerFilePatterns": ["/charts/proxmox-exporter/Chart\\.(yaml|yml)$/"],
+      "matchStrings": ["appVersion:\\s*\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v(?<version>.*)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchFileNames": ["charts/**"],
+      "bumpVersions": [
+        {
+          "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
+          "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
+          "bumpType": "{{#if isMajor}}major{{else}}{{#if isPatch}}patch{{else}}minor{{/if}}{{/if}}"
+        }
+      ]
+    },
+    {
+      "description": "Group chart and appVersion updates together",
+      "groupName": "proxmox-exporter",
+      "groupSlug": "proxmox-exporter",
+      "matchFileNames": ["charts/proxmox-exporter/**"]
     }
   ]
 }
