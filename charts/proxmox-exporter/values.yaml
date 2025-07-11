@@ -1,7 +1,6 @@
 image:
   repository: "prompve/prometheus-pve-exporter"
-  # Empty by default, will use Chart.AppVersion
-  tag: ""
+  tag: "3.5.4"
 replicaCount: 1
 
 ingress:
