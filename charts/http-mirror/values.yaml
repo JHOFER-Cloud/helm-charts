@@ -1,6 +1,6 @@
 # Global defaults applied to all targets
 defaults:
-  userAgent: "Mozilla/5.0 (compatible; HttpMirror/1.0; +https://github.com/jhofer-cloud/http-mirror) Friendly Mirror/Archive"
+  # userAgent is dynamically set to include Chart.AppVersion in the ConfigMap template
   rateLimit: "500k"
   retries: 3
   maxDepth: 5
@@ -106,7 +106,7 @@ storage:
   # storageClassName: "" # Use default storage class
   size: "10Gi"
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
 
 # Ingress configuration
 ingress:
@@ -140,6 +140,9 @@ serviceMonitor:
   enabled: false
   labels: {}
   annotations: {}
+  interval: 30s
+  scrapeTimeout: 10s
+  path: /metrics
 
 # Common labels
 commonLabels: {}
@@ -155,4 +158,3 @@ podSecurityContext:
   runAsNonRoot: true
   runAsUser: 1000
   fsGroup: 1000
-

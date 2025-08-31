@@ -19,6 +19,9 @@ spec:
       app.kubernetes.io/component: server
   endpoints:
     - port: http
-      path: /metrics
-      interval: 30s
+      path: {{ .Values.serviceMonitor.path }}
+      interval: {{ .Values.serviceMonitor.interval }}
+      {{- if .Values.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
+      {{- end }}
 {{- end }}

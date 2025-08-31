@@ -10,7 +10,7 @@ data:
   config.json: |
     {
       "defaults": {
-        "userAgent": {{ .Values.defaults.userAgent | quote }},
+        "userAgent": {{ printf "Mozilla/5.0 (compatible; HttpMirror/%s; +https://github.com/jhofer-cloud/http-mirror) Friendly Mirror/Archive" .Chart.AppVersion | quote }},
         "rateLimit": {{ .Values.defaults.rateLimit | quote }},
         "retries": {{ .Values.defaults.retries }},
         "maxDepth": {{ .Values.defaults.maxDepth }},
