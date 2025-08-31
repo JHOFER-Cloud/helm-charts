@@ -8,14 +8,17 @@ defaults:
   waitBetweenRequests: 1
 
   # Smart mirroring
-  timestamping: true # Only download newer files
-  noClobber: true # Don't overwrite unchanged files
-  continueDownload: true # Resume interrupted downloads
-  checkChanges: true # Quick header check first
+  # Only download newer files
+  timestamping: true
+  # Don't overwrite unchanged files
+  noClobber: true
+  # Resume interrupted downloads
+  continueDownload: true
+  # Quick header check first
+  checkChanges: true
 
 # Target-specific configurations
-targets:
-  []
+targets: []
   # Example:
   # - name: "example-docs"
   #   url: "http://example.domain/files/"
@@ -32,7 +35,8 @@ updater:
   # Container image
   image:
     repository: "ghcr.io/jhofer-cloud/http-mirror-updater"
-    tag: "" # Uses Chart.AppVersion if empty
+    # Uses Chart.AppVersion if empty
+    tag: ""
     pullPolicy: IfNotPresent
 
   # Cron schedule
@@ -64,7 +68,8 @@ server:
   # Container image
   image:
     repository: "ghcr.io/jhofer-cloud/http-mirror-server"
-    tag: "" # Uses Chart.AppVersion if empty
+    # Uses Chart.AppVersion if empty
+    tag: ""
     pullPolicy: IfNotPresent
 
   # Service configuration
@@ -113,8 +118,7 @@ ingress:
   enabled: false
   className: ""
   annotations: {}
-  hosts:
-    []
+  hosts: []
     # Example:
     # - host: mirror.example.com
     #   paths:
@@ -124,8 +128,7 @@ ingress:
     #   paths:
     #     - path: /example-docs
     #       pathType: Prefix
-  tls:
-    []
+  tls: []
     # - secretName: mirror-tls
     #   hosts:
     #     - mirror.example.com
