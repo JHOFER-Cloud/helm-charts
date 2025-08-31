@@ -11,7 +11,7 @@ dependencies:
     version: 1.x.x
 maintainers:
   - name: ojsef39
-    email: me@jhofer.de
+    email: me+github@jhofer.de
     url: https://github.com/ojsef39
 description: |
   A Helm chart for Prometheus Proxmox VE Exporter

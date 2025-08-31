@@ -143,59 +143,60 @@ helm schema . --no-dependencies -k additionalProperties -k required
 
 ## Maintainers
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| ojsef39 | <me@jhofer.de> | <https://github.com/ojsef39> |
+| Name    | Email                 | Url                          |
+| ------- | --------------------- | ---------------------------- |
+| ojsef39 | <me+github@jhofer.de> | <https://github.com/ojsef39> |
 
 ## Requirements
 
-| Repository | Name | Version |
-|------------|------|---------|
-| https://charts.jhofer.org | base | 1.x.x |
+| Repository                | Name | Version |
+| ------------------------- | ---- | ------- |
+| <https://charts.jhofer.org> | base | 1.x.x   |
 
 ## Values
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| annotations | object | `{}` |  |
-| containerPorts.http | int | `9221` |  |
-| env | list | `[]` |  |
-| extraArgs | list | `[]` |  |
-| image.repository | string | `"prompve/prometheus-pve-exporter"` |  |
-| image.tag | string | `""` |  |
-| ingress.backend.servicePort | string | `"http"` |  |
-| ingress.enabled | bool | `false` |  |
-| ingress.hostname | string | `"proxmox-exporter.local"` |  |
-| ingress.path | string | `"/"` |  |
-| ingress.pathType | string | `"Prefix"` |  |
-| livenessProbe.enabled | bool | `true` |  |
-| livenessProbe.failureThreshold | int | `6` |  |
-| livenessProbe.initialDelaySeconds | int | `180` |  |
-| livenessProbe.path | string | `"/"` |  |
-| livenessProbe.periodSeconds | int | `20` |  |
-| livenessProbe.port | int | `9221` |  |
-| livenessProbe.successThreshold | int | `1` |  |
-| livenessProbe.timeoutSeconds | int | `5` |  |
-| readinessProbe.enabled | bool | `true` |  |
-| readinessProbe.failureThreshold | int | `6` |  |
-| readinessProbe.initialDelaySeconds | int | `180` |  |
-| readinessProbe.path | string | `"/"` |  |
-| readinessProbe.periodSeconds | int | `20` |  |
-| readinessProbe.port | int | `9221` |  |
-| readinessProbe.successThreshold | int | `1` |  |
-| readinessProbe.timeoutSeconds | int | `5` |  |
-| replicaCount | int | `1` |  |
-| secretRef.key | string | `"pve.yml"` |  |
-| secretRef.name | string | `"proxmox-credentials"` |  |
-| service.nodePorts | object | `{}` |  |
-| service.ports.http | int | `9221` |  |
-| service.type | string | `"ClusterIP"` |  |
-| serviceMonitor.enabled | bool | `false` |  |
-| serviceMonitor.extraLabels | object | `{}` |  |
-| serviceMonitor.interval | string | `"30s"` |  |
-| serviceMonitor.module | string | `"default"` |  |
-| serviceMonitor.scrapeTimeout | string | `"30s"` |  |
-| serviceMonitor.targets | list | `[]` |  |
+| Key                                | Type   | Default                             | Description |
+| ---------------------------------- | ------ | ----------------------------------- | ----------- |
+| annotations                        | object | `{}`                                |             |
+| containerPorts.http                | int    | `9221`                              |             |
+| env                                | list   | `[]`                                |             |
+| extraArgs                          | list   | `[]`                                |             |
+| image.repository                   | string | `"prompve/prometheus-pve-exporter"` |             |
+| image.tag                          | string | `""`                                |             |
+| ingress.backend.servicePort        | string | `"http"`                            |             |
+| ingress.enabled                    | bool   | `false`                             |             |
+| ingress.hostname                   | string | `"proxmox-exporter.local"`          |             |
+| ingress.path                       | string | `"/"`                               |             |
+| ingress.pathType                   | string | `"Prefix"`                          |             |
+| livenessProbe.enabled              | bool   | `true`                              |             |
+| livenessProbe.failureThreshold     | int    | `6`                                 |             |
+| livenessProbe.initialDelaySeconds  | int    | `180`                               |             |
+| livenessProbe.path                 | string | `"/"`                               |             |
+| livenessProbe.periodSeconds        | int    | `20`                                |             |
+| livenessProbe.port                 | int    | `9221`                              |             |
+| livenessProbe.successThreshold     | int    | `1`                                 |             |
+| livenessProbe.timeoutSeconds       | int    | `5`                                 |             |
+| readinessProbe.enabled             | bool   | `true`                              |             |
+| readinessProbe.failureThreshold    | int    | `6`                                 |             |
+| readinessProbe.initialDelaySeconds | int    | `180`                               |             |
+| readinessProbe.path                | string | `"/"`                               |             |
+| readinessProbe.periodSeconds       | int    | `20`                                |             |
+| readinessProbe.port                | int    | `9221`                              |             |
+| readinessProbe.successThreshold    | int    | `1`                                 |             |
+| readinessProbe.timeoutSeconds      | int    | `5`                                 |             |
+| replicaCount                       | int    | `1`                                 |             |
+| secretRef.key                      | string | `"pve.yml"`                         |             |
+| secretRef.name                     | string | `"proxmox-credentials"`             |             |
+| service.nodePorts                  | object | `{}`                                |             |
+| service.ports.http                 | int    | `9221`                              |             |
+| service.type                       | string | `"ClusterIP"`                       |             |
+| serviceMonitor.enabled             | bool   | `false`                             |             |
+| serviceMonitor.extraLabels         | object | `{}`                                |             |
+| serviceMonitor.interval            | string | `"30s"`                             |             |
+| serviceMonitor.module              | string | `"default"`                         |             |
+| serviceMonitor.scrapeTimeout       | string | `"30s"`                             |             |
+| serviceMonitor.targets             | list   | `[]`                                |             |
 
-----------------------------------------------
+---
+
 Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
