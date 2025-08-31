@@ -39,7 +39,7 @@ spec:
           {{- end }}
           containers:
             - name: updater
-              image: "{{ .Values.updater.image.repository }}:{{ .Values.updater.image.tag }}"
+              image: "{{ .Values.updater.image.repository }}:{{ .Values.updater.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.updater.image.pullPolicy }}
               {{- with .Values.securityContext }}
               securityContext:

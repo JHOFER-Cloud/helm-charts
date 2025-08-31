@@ -32,7 +32,7 @@ updater:
   # Container image
   image:
     repository: "ghcr.io/jhofer-cloud/http-mirror-updater"
-    tag: "1.0.0"
+    tag: "" # Uses Chart.AppVersion if empty
     pullPolicy: IfNotPresent
 
   # Cron schedule
@@ -64,7 +64,7 @@ server:
   # Container image
   image:
     repository: "ghcr.io/jhofer-cloud/http-mirror-server"
-    tag: "1.0.0"
+    tag: "" # Uses Chart.AppVersion if empty
     pullPolicy: IfNotPresent
 
   # Service configuration
@@ -112,10 +112,7 @@ storage:
 ingress:
   enabled: false
   className: ""
-  annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
-    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  annotations: {}
   hosts:
     []
     # Example:
@@ -123,12 +120,10 @@ ingress:
     #   paths:
     #     - path: /
     #       pathType: Prefix
-    #       target: "all"  # Serves all targets
     # - host: docs.mirror.example.com
     #   paths:
-    #     - path: /
+    #     - path: /example-docs
     #       pathType: Prefix
-    #       target: "example-docs"  # Serves specific target
   tls:
     []
     # - secretName: mirror-tls
