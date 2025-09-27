@@ -107,7 +107,7 @@ server:
 
 # Storage configuration
 storage:
-  enabled: true
+  enabled: false
   # storageClassName: "" # Use default storage class
   size: "10Gi"
   accessModes:
