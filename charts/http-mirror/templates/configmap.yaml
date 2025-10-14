@@ -1,0 +1,73 @@
+{{- if or .Values.targets .Values.updater.enabled .Values.server.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "base.fullname" . }}
+  labels:
+    {{- include "base.labels" . | nindent 4 }}
+data:
+  # Mirror configuration as JSON
+  config.json: |
+    {
+      "defaults": {
+        "userAgent": {{ printf "Mozilla/5.0 (compatible; HttpMirror/%s; +https://github.com/jhofer-cloud/http-mirror) Friendly Mirror/Archive" .Chart.AppVersion | quote }},
+        "rateLimit": {{ .Values.defaults.rateLimit | quote }},
+        "retries": {{ .Values.defaults.retries }},
+        "maxDepth": {{ .Values.defaults.maxDepth }},
+        "timeout": {{ .Values.defaults.timeout }},
+        "waitBetweenRequests": {{ .Values.defaults.waitBetweenRequests }},
+        "timestamping": {{ .Values.defaults.timestamping }},
+        "noClobber": {{ .Values.defaults.noClobber }},
+        "continueDownload": {{ .Values.defaults.continueDownload }},
+        "checkChanges": {{ .Values.defaults.checkChanges }}
+      },
+      "targets": [
+        {{- range $index, $target := .Values.targets }}
+        {{- if $index }},{{ end }}
+        {
+          "name": {{ $target.name | quote }},
+          "url": {{ $target.url | quote }}
+          {{- if $target.userAgent }},
+          "userAgent": {{ $target.userAgent | quote }}
+          {{- end }}
+          {{- if $target.rateLimit }},
+          "rateLimit": {{ $target.rateLimit | quote }}
+          {{- end }}
+          {{- if $target.retries }},
+          "retries": {{ $target.retries }}
+          {{- end }}
+          {{- if $target.maxDepth }},
+          "maxDepth": {{ $target.maxDepth }}
+          {{- end }}
+          {{- if $target.timeout }},
+          "timeout": {{ $target.timeout }}
+          {{- end }}
+          {{- if $target.waitBetweenRequests }},
+          "waitBetweenRequests": {{ $target.waitBetweenRequests }}
+          {{- end }}
+          {{- if hasKey $target "timestamping" }},
+          "timestamping": {{ $target.timestamping }}
+          {{- end }}
+          {{- if hasKey $target "noClobber" }},
+          "noClobber": {{ $target.noClobber }}
+          {{- end }}
+          {{- if hasKey $target "continueDownload" }},
+          "continueDownload": {{ $target.continueDownload }}
+          {{- end }}
+          {{- if hasKey $target "checkChanges" }},
+          "checkChanges": {{ $target.checkChanges }}
+          {{- end }}
+        }
+        {{- end }}
+      ],
+      "mirror": {
+        "dataPath": "/data",
+        "logLevel": "info"
+      },
+      "server": {
+        "port": 8080,
+        "host": "0.0.0.0",
+        "dataPath": "/data"
+      }
+    }
+{{- end }}
