@@ -1,0 +1,158 @@
+# Global defaults applied to all targets
+defaults:
+  # userAgent is dynamically set to include Chart.AppVersion in the ConfigMap template
+  rateLimit: "500k"
+  retries: 3
+  maxDepth: 5
+  timeout: 30
+  waitBetweenRequests: 1
+
+  # Smart mirroring
+  # Only download newer files
+  timestamping: true
+  # Don't overwrite unchanged files
+  noClobber: true
+  # Resume interrupted downloads
+  continueDownload: true
+  # Quick header check first
+  checkChanges: true
+
+# Target-specific configurations
+targets: []
+  # Example:
+  # - name: "example-docs"
+  #   url: "http://example.domain/files/"
+  #   # Uses all defaults
+  # - name: "slow-server"
+  #   url: "https://slow.site.com/downloads/"
+  #   rateLimit: "100k"  # Override for slow server
+  #   waitBetweenRequests: 3
+
+# Mirror updater configuration (CronJob)
+updater:
+  enabled: true
+
+  # Container image
+  image:
+    repository: "ghcr.io/jhofer-cloud/http-mirror-updater"
+    # Uses Chart.AppVersion if empty
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  # Cron schedule
+  schedule:
+    # Run daily at 8AM Berlin time
+    cron: "0 8 * * *"
+    timezone: "Europe/Berlin"
+
+  # Resource limits
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  # Job settings
+  job:
+    restartPolicy: OnFailure
+    backoffLimit: 3
+    successfulJobsHistoryLimit: 3
+    failedJobsHistoryLimit: 1
+
+# Web server configuration (Deployment)
+server:
+  enabled: true
+
+  # Container image
+  image:
+    repository: "ghcr.io/jhofer-cloud/http-mirror-server"
+    # Uses Chart.AppVersion if empty
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  # Service configuration
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+
+  # Resource limits
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+  # Replica count
+  replicaCount: 1
+
+  # Health checks
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+# Storage configuration
+storage:
+  enabled: false
+  # storageClassName: "" # Use default storage class
+  size: "10Gi"
+  accessModes:
+    - ReadWriteMany
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+    # Example:
+    # - host: mirror.example.com
+    #   paths:
+    #     - path: /
+    #       pathType: Prefix
+    # - host: docs.mirror.example.com
+    #   paths:
+    #     - path: /example-docs
+    #       pathType: Prefix
+  tls: []
+    # - secretName: mirror-tls
+    #   hosts:
+    #     - mirror.example.com
+
+# ServiceMonitor for Prometheus (optional)
+serviceMonitor:
+  enabled: false
+  labels: {}
+  annotations: {}
+  interval: 30s
+  scrapeTimeout: 10s
+  path: /metrics
+
+# Common labels
+commonLabels: {}
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+# Pod security context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
