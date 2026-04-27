@@ -1,7 +1,7 @@
 image:
   repository: "prompve/prometheus-pve-exporter"
   # If not set will use Chart.AppVersion
-  tag: "3.8.2"
+  tag: "3.8.3"
 replicaCount: 1
 
 ingress:
