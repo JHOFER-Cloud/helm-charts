@@ -1,0 +1,77 @@
+{{- if .Values.updater.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "base.fullname" . }}-updater
+  labels:
+    {{- include "base.labels" . | nindent 4 }}
+    app.kubernetes.io/component: updater
+spec:
+  schedule: {{ .Values.updater.schedule.cron | quote }}
+  {{- if .Values.updater.schedule.timezone }}
+  timeZone: {{ .Values.updater.schedule.timezone | quote }}
+  {{- end }}
+  successfulJobsHistoryLimit: {{ .Values.updater.job.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.updater.job.failedJobsHistoryLimit }}
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "base.labels" . | nindent 8 }}
+        app.kubernetes.io/component: updater
+        {{- with .Values.commonLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      backoffLimit: {{ .Values.updater.job.backoffLimit }}
+      template:
+        metadata:
+          labels:
+            {{- include "base.labels" . | nindent 12 }}
+            app.kubernetes.io/component: updater
+            {{- with .Values.commonLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        spec:
+          restartPolicy: {{ .Values.updater.job.restartPolicy }}
+          {{- with .Values.podSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: updater
+              image: "{{ .Values.updater.image.repository }}:{{ .Values.updater.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.updater.image.pullPolicy }}
+              {{- with .Values.securityContext }}
+              securityContext:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              env:
+                - name: CONFIG_FILE
+                  value: "/config/config.json"
+                - name: MIRROR_DATA_PATH
+                  value: "/data"
+                - name: LOG_LEVEL
+                  value: "info"
+              {{- with .Values.updater.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+          volumes:
+            - name: config
+              configMap:
+                name: {{ include "base.fullname" . }}
+            {{- if .Values.storage.enabled }}
+            - name: data
+              persistentVolumeClaim:
+                claimName: {{ include "base.fullname" . }}-data
+            {{- else }}
+            - name: data
+              emptyDir: {}
+            {{- end }}
+{{- end }}
